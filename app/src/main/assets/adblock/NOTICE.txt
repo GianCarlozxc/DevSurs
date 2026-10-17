@@ -1,0 +1,13 @@
+DevSurf Mobile bundles Peter Lowe's ad and tracking server list unmodified.
+Author: Peter Lowe (pgl@yoyo.org)
+Homepage: https://pgl.yoyo.org/adservers/
+Source: https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=1&mimetype=plaintext
+Downloaded: 2026-10-17
+The list retains the upstream attribution and source headers.
+The author permits combining and redistributing the list on the homepage.
+
+DevSurf uses unconditional ||hostname^ rules to block embedded requests to the
+listed domains and their subdomains. Main-frame navigation remains allowed.
+The bundled list is refreshed with app releases; no runtime network updates
+or external browsing-data reporting are performed. DevSurf's small ad-slot
+stylesheet is application-owned and is not copied from a filter subscription.
