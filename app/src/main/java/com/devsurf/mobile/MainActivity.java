@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
+        UpdateRestartReceiver.opened(this);
         prefs = getSharedPreferences("devsurf", MODE_PRIVATE);
         prefs.edit().remove("javascript").remove("light").apply();
         adBlocker = new AdBlocker(getApplicationContext(), prefs);
@@ -509,11 +510,12 @@ public class MainActivity extends Activity {
         });
         settingCard(body, "delete", "Clear browsing data", "Manage history, cookies and site storage", "", this::clearData);
         settingsSection(body, "GENERAL");
+        settingCard(body, "download", "Check for updates", "Installed version " + BuildConfig.VERSION_NAME, "", () -> startActivity(new Intent(this, UpdatesActivity.class)));
         settingCard(body, "sound", "Download sounds", "Play sounds when downloads start and finish", DownloadFeedback.enabled(this) ? "On" : "Off", () -> {
             DownloadFeedback.setEnabled(this, !DownloadFeedback.enabled(this)); settings();
         });
         settingCard(body, "desktop", "Default browser", "Open links from other apps in DevSurf", "", this::chooseDefaultBrowser);
-        settingCard(body, "info", "About DevSurf", "Version 1.0.0", "", () -> Dialogs.builder(this, light).setTitle("DevSurf Mobile · 1.0.0").setMessage("DevSurf's dark workspace, adapted for Android.\n\nBrowsing uses Android System WebView. Tabs, bookmarks, history and preferences stay on this phone. Downloads use Android Download Manager.\n\nAd blocking uses Peter Lowe's bundled ad and tracking server list (pgl.yoyo.org/adservers/), with limited ad-slot hiding. It cannot remove every ad or guarantee video-ad blocking.\n\nAI Chat opens ChatGPT or Claude in a browser tab. Desktop accounts, built-in AI tools and VPN are not included in this version.").setPositiveButton("Done", null).show());
+        settingCard(body, "info", "About DevSurf", "Version " + BuildConfig.VERSION_NAME, "", () -> Dialogs.builder(this, light).setTitle("DevSurf Mobile · " + BuildConfig.VERSION_NAME).setMessage("DevSurf's dark workspace, adapted for Android.\n\nBrowsing uses Android System WebView. Tabs, bookmarks, history and preferences stay on this phone. Downloads use Android Download Manager.\n\nAd blocking uses Peter Lowe's bundled ad and tracking server list (pgl.yoyo.org/adservers/), with limited ad-slot hiding. It cannot remove every ad or guarantee video-ad blocking.\n\nAI Chat opens ChatGPT or Claude in a browser tab. Desktop accounts, built-in AI tools and VPN are not included in this version.").setPositiveButton("Done", null).show());
         scroll.addView(body); page.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1)); content.addView(page, new FrameLayout.LayoutParams(-1, -1));
         if (entering && android.animation.ValueAnimator.areAnimatorsEnabled()) { page.setTranslationX(dp(24)); page.setAlpha(0f); page.animate().translationX(0f).alpha(1f).setDuration(220).start(); }
     }
